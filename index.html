@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucas Nascimento | PCD Freaky</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #e8001d;
+    --red-dark: #a80015;
+    --red-glow: rgba(232,0,29,0.35);
+    --black: #080808;
+    --dark: #111111;
+    --dark2: #1a1a1a;
+    --dark3: #222222;
+    --white: #f5f5f5;
+    --grey: #888888;
+    --light-grey: #cccccc;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,0,29,0.15);
+    transition: padding 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.25s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--red);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); transition: 0.3s; }
+
+  /* ─── HERO ─── */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 3rem 3rem;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(232,0,29,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(232,0,29,0.06) 0%, transparent 50%),
+      linear-gradient(180deg, #080808 0%, #0f0505 100%);
+  }
+
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    opacity: 0.07;
+  }
+  .hero-lines::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(232,0,29,0.8) 40px,
+      rgba(232,0,29,0.8) 41px
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--red);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--white);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-title .accent { color: var(--red); }
+  .hero-title .outline {
+    -webkit-text-stroke: 1px rgba(245,245,245,0.3);
+    color: transparent;
+  }
+
+  .hero-subtitle {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--light-grey);
+    max-width: 560px;
+    line-height: 1.7;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-cta {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: var(--red);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2.2rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
+    transition: background 0.25s, box-shadow 0.25s, transform 0.2s;
+    font-weight: 700;
+  }
+  .btn-primary:hover {
+    background: var(--red-dark);
+    box-shadow: 0 0 30px var(--red-glow);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    border: 1px solid rgba(245,245,245,0.25);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2.2rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
+    transition: border-color 0.25s, color 0.25s, transform 0.2s;
+    font-weight: 400;
+  }
+  .btn-outline:hover {
+    border-color: var(--red);
+    color: var(--red);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 4rem;
+    right: 3rem;
+    display: flex;
+    gap: 3rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .stat {
+    text-align: right;
+  }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--red);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: 0.3rem;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: pulse 2s infinite;
+  }
+  .scroll-indicator span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(180deg, var(--red), transparent);
+    animation: scrollLine 2s infinite;
+  }
+
+  /* ─── QUOTE STRIP ─── */
+  .quote-strip {
+    background: var(--red);
+    padding: 1.2rem 3rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .quote-track {
+    display: flex;
+    gap: 4rem;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .quote-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.9);
+    flex-shrink: 0;
+  }
+  .quote-item::before {
+    content: '★';
+    margin-right: 1rem;
+    opacity: 0.6;
+  }
+
+  /* ─── SECTIONS COMMON ─── */
+  section { padding: 6rem 3rem; }
+
+  .section-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-tag::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--red);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  .section-title .red { color: var(--red); }
+
+  /* ─── SOBRE ─── */
+  #sobre {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+  #sobre::before {
+    content: 'SOBRE';
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 15vw, 14rem);
+    color: rgba(255,255,255,0.02);
+    letter-spacing: 10px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1100px;
+  }
+
+  .sobre-visual {
+    position: relative;
+  }
+  .sobre-card {
+    background: var(--dark2);
+    border: 1px solid rgba(232,0,29,0.2);
+    padding: 3rem;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  }
+  .sobre-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 60px; height: 60px;
+    border-top: 2px solid var(--red);
+    border-left: 2px solid var(--red);
+  }
+  .sobre-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 60px; height: 60px;
+    border-bottom: 2px solid var(--red);
+    border-right: 2px solid var(--red);
+  }
+
+  .sobre-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+  .sobre-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 1rem;
+  }
+  .sobre-card p {
+    color: var(--light-grey);
+    line-height: 1.8;
+    font-size: 0.95rem;
+  }
+
+  .sobre-text p {
+    color: var(--light-grey);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .sobre-text p:first-of-type {
+    font-size: 1.1rem;
+    color: var(--white);
+  }
+
+  .highlight-box {
+    border-left: 2px solid var(--red);
+    padding: 1rem 1.5rem;
+    background: rgba(232,0,29,0.05);
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--light-grey);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  /* ─── REDES ─── */
+  #redes {
+    background: var(--black);
+    text-align: center;
+  }
+  .redes-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    padding: 2.5rem 3rem;
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.06);
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    min-width: 180px;
+  }
+  .social-card:hover {
+    border-color: var(--red);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(232,0,29,0.15);
+  }
+  .social-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+  }
+  .social-icon.ig { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+  .social-icon.tt { background: #010101; border: 1px solid rgba(255,255,255,0.1); }
+  .social-icon.yt { background: #ff0000; }
+
+  .social-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+  .social-handle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--grey);
+  }
+
+  /* ─── MOTIVATIONAL STRIP ─── */
+  .motive-strip {
+    padding: 5rem 3rem;
+    background: linear-gradient(135deg, #0f0202, #1a0303, #0f0202);
+    border-top: 1px solid rgba(232,0,29,0.15);
+    border-bottom: 1px solid rgba(232,0,29,0.15);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .motive-strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(232,0,29,0.08), transparent);
+  }
+  .motive-quote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 3px;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+  }
+  .motive-author {
+    margin-top: 1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--red);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── PARCERIAS ─── */
+  #parcerias {
+    background: var(--dark);
+  }
+  .parcerias-intro {
+    max-width: 600px;
+    color: var(--light-grey);
+    line-height: 1.8;
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .parcerias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .parceria-card {
+    background: var(--dark2);
+    border: 1px solid rgba(232,0,29,0.2);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .parceria-card:hover {
+    border-color: var(--red);
+    transform: translateY(-4px);
+  }
+  .parceria-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle at top right, rgba(232,0,29,0.12), transparent 70%);
+  }
+
+  .parceria-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .parceria-desc {
+    font-size: 0.85rem;
+    color: var(--grey);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  .coupon-box {
+    background: rgba(232,0,29,0.08);
+    border: 1px dashed rgba(232,0,29,0.4);
+    border-radius: 4px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .coupon-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .coupon-code {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: var(--red);
+  }
+  .parceria-tip {
+    font-size: 0.82rem;
+    color: var(--grey);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ─── CONSULTORIA ─── */
+  #consultoria {
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+  #consultoria::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(232,0,29,0.07), transparent);
+  }
+
+  .consultoria-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .consultoria-inner .section-tag { justify-content: center; }
+  .consultoria-inner .section-tag::before { display: none; }
+
+  .consultoria-desc {
+    margin-top: 1.5rem;
+    font-size: 1.05rem;
+    color: var(--light-grey);
+    line-height: 1.9;
+    margin-bottom: 2rem;
+  }
+
+  .consult-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+  .consult-feat {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: border-color 0.25s;
+  }
+  .consult-feat:hover { border-color: rgba(232,0,29,0.3); }
+  .consult-feat-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+  .consult-feat-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .free-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(232,0,29,0.1);
+    border: 1px solid rgba(232,0,29,0.3);
+    color: var(--red);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    padding: 0.5rem 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .email-link {
+    display: block;
+    margin-top: 1.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .email-link:hover { color: var(--red); }
+
+  /* ─── DEPOIMENTOS ─── */
+  #depoimentos {
+    background: var(--dark);
+  }
+  .dep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .dep-card {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem;
+    position: relative;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .dep-card:hover {
+    border-color: rgba(232,0,29,0.25);
+    transform: translateY(-4px);
+  }
+  .dep-quote-mark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: var(--red);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: -1rem;
+  }
+  .dep-text {
+    color: var(--light-grey);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .dep-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .dep-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--red-dark), var(--red));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: white;
+  }
+  .dep-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--white);
+  }
+  .dep-stars {
+    font-size: 0.7rem;
+    color: var(--red);
+    letter-spacing: 2px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #050505;
+    border-top: 1px solid rgba(232,0,29,0.12);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-copy {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--grey);
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .footer-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .footer-links a:hover { color: var(--red); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── MOBILE NAV ─── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links {
+      position: fixed;
+      top: 0; right: -100%;
+      height: 100vh;
+      width: 70%;
+      background: var(--dark);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      transition: right 0.35s;
+      z-index: 200;
+      border-left: 1px solid rgba(232,0,29,0.2);
+    }
+    .nav-links.open { right: 0; }
+    .nav-links a { font-size: 1.1rem; }
+    .hamburger { display: flex; z-index: 300; }
+
+    #home { padding: 5rem 1.5rem 3rem; }
+    .hero-stats { display: none; }
+    .scroll-indicator { display: none; }
+
+    section { padding: 4rem 1.5rem; }
+    .sobre-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .consult-features { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">PCD<span>FREAKY</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#redes">Redes</a></li>
+    <li><a href="#parcerias">Parcerias</a></li>
+    <li><a href="#consultoria">Consultoria</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Lucas Nascimento · @pcdfreaky</div>
+    <h1 class="hero-title">
+      NÃO EXISTE<br>
+      <span class="accent">LIMITE</span><br>
+      <span class="outline">QUE TE</span><br>DEFINE
+    </h1>
+    <p class="hero-subtitle">
+      Criador de conteúdo focado em musculação, evolução física e motivação real.
+      Provando todos os dias que a mente vence qualquer obstáculo.
+    </p>
+    <div class="hero-cta">
+      <a href="https://instagram.com/pcdfreaky" target="_blank" class="btn-primary">💪 Quero minha consultoria</a>
+      <a href="#sobre" class="btn-outline">Conheça minha história</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Gratuito</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">Superação</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">1</div>
+      <div class="stat-label">Missão</div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- QUOTE STRIP -->
+<div class="quote-strip">
+  <div class="quote-track">
+    <span class="quote-item">Disciplina é liberdade</span>
+    <span class="quote-item">A dor de hoje é o troféu de amanhã</span>
+    <span class="quote-item">Evolução sem desculpas</span>
+    <span class="quote-item">Seu único limite é você mesmo</span>
+    <span class="quote-item">Cada rep conta</span>
+    <span class="quote-item">Consistência bate talento</span>
+    <!-- Repeat for seamless loop -->
+    <span class="quote-item">Disciplina é liberdade</span>
+    <span class="quote-item">A dor de hoje é o troféu de amanhã</span>
+    <span class="quote-item">Evolução sem desculpas</span>
+    <span class="quote-item">Seu único limite é você mesmo</span>
+    <span class="quote-item">Cada rep conta</span>
+    <span class="quote-item">Consistência bate talento</span>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-grid fade-in">
+    <div class="sobre-visual">
+      <div class="sobre-card">
+        <div class="sobre-icon">🏋️</div>
+        <div class="sobre-card-title">Minha Missão</div>
+        <p>
+          Mostrar que evolução física não tem exceção de corpo, condição ou circunstância.
+          Se há vontade, há caminho. E eu estou aqui para provar isso a cada treino, a cada série, a cada dia.
+        </p>
+      </div>
+    </div>
+
+    <div class="sobre-text">
+      <div class="section-tag">Minha história</div>
+      <h2 class="section-title">LUCAS<br><span class="red">NASCIMENTO</span></h2>
+
+      <p>
+        Sou Lucas Nascimento, estudante de Nutrição, criador de conteúdo e um apaixonado
+        pela cultura do ferro. Minha jornada na musculação começou como uma busca por superação
+        — e se transformou em propósito de vida.
+      </p>
+
+      <div class="highlight-box">
+        "Nasci diferente do padrão que o mundo esperava de mim. E foi exatamente isso que me deu força para ir além de qualquer expectativa."
+      </div>
+
+      <p>
+        Como pessoa com deficiência (PCD), aprendi desde cedo que os maiores obstáculos estão na mente,
+        não no corpo. A academia me ensinou disciplina, resiliência e a beleza de conquistar o que parecia
+        impossível. Hoje, compartilho essa jornada para inspirar outras pessoas a fazerem o mesmo.
+      </p>
+
+      <p>
+        Meu conteúdo mistura educação — com base nos meus estudos em Nutrição — e motivação real,
+        sem filtros e sem atalhos. Acredito que todo mundo merece acesso a informação de qualidade
+        para transformar o próprio corpo e a própria vida.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- MOTIVATIONAL -->
+<div class="motive-strip fade-in">
+  <div class="motive-quote">
+    "O CORPO ATINGE O QUE A<br><span style="color: var(--red)">MENTE ACREDITA"</span>
+  </div>
+  <div class="motive-author">— Lucas Nascimento · @pcdfreaky</div>
+</div>
+
+<!-- REDES SOCIAIS -->
+<section id="redes">
+  <div class="section-tag">Me siga</div>
+  <h2 class="section-title">REDES<br><span class="red">SOCIAIS</span></h2>
+  <p style="color: var(--grey); margin-top: 0.5rem; font-size: 0.9rem;">Acompanhe minha evolução diária e conteúdo exclusivo.</p>
+
+  <div class="redes-grid fade-in">
+    <a href="https://instagram.com/pcdfreaky" target="_blank" class="social-card">
+      <div class="social-icon ig">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </div>
+      <div class="social-name">Instagram</div>
+      <div class="social-handle">@pcdfreaky</div>
+    </a>
+    <a href="https://tiktok.com/@pcdfreaky" target="_blank" class="social-card">
+      <div class="social-icon tt">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
+        </svg>
+      </div>
+      <div class="social-name">TikTok</div>
+      <div class="social-handle">@pcdfreaky</div>
+    </a>
+    <a href="https://youtube.com/@pcdfreaky" target="_blank" class="social-card">
+      <div class="social-icon yt">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
+          <path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+        </svg>
+      </div>
+      <div class="social-name">YouTube</div>
+      <div class="social-handle">@pcdfreaky</div>
+    </a>
+  </div>
+</section>
+
+<!-- PARCERIAS -->
+<section id="parcerias">
+  <div class="section-tag">Marcas que confiam</div>
+  <h2 class="section-title">PARCERIAS<br><span class="red">& CUPONS</span></h2>
+  <p class="parcerias-intro">
+    Trabalho apenas com marcas em que acredito e que usaria no meu dia a dia.
+    Use meu cupom para apoiar meu trabalho e ainda garantir um desconto especial na sua compra!
+  </p>
+
+  <div class="parcerias-grid fade-in">
+    <div class="parceria-card">
+      <div class="parceria-brand">DR PEANUT</div>
+      <div class="parceria-desc">
+        A melhor pasta de amendoim do mercado — sabor, qualidade e proteína de verdade.
+        Perfeita para quem leva a alimentação a sério.
+      </div>
+      <div class="coupon-box">
+        <div>
+          <div class="coupon-label">Cupom de desconto</div>
+          <div class="coupon-code">DRLUCASSOUZAFIT</div>
+        </div>
+        <span style="font-size: 1.5rem;">🥜</span>
+      </div>
+      <div class="parceria-tip">
+        💡 Use meu cupom no site da DR Peanut e economize na sua próxima compra!
+      </div>
+      <a href="https://www.drpeanut.com.br" target="_blank" class="btn-primary" style="margin-top: 1.5rem; display: inline-flex; font-size: 0.8rem; padding: 0.8rem 1.6rem;">
+        Ir para a loja →
+      </a>
+    </div>
+
+    <div class="parceria-card">
+      <div class="parceria-brand">OLWAY</div>
+      <div class="parceria-desc">
+        Roupas e acessórios que combinam estilo e performance para quem vive a cultura fitness com autenticidade.
+      </div>
+      <div class="coupon-box">
+        <div>
+          <div class="coupon-label">Cupom de desconto</div>
+          <div class="coupon-code">OLWAYLUCAS</div>
+        </div>
+        <span style="font-size: 1.5rem;">👕</span>
+      </div>
+      <div class="parceria-tip">
+        💡 Use meu cupom na Loja Olway e garanta desconto exclusivo no seu pedido!
+      </div>
+      <a href="https://olway.com.br" target="_blank" class="btn-primary" style="margin-top: 1.5rem; display: inline-flex; font-size: 0.8rem; padding: 0.8rem 1.6rem;">
+        Ir para a loja →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MOTIVATIONAL 2 -->
+<div class="motive-strip fade-in">
+  <div class="motive-quote">
+    "CADA DIA É UMA<br><span style="color: var(--red)">NOVA CHANCE DE EVOLUIR"</span>
+  </div>
+  <div class="motive-author">— Disciplina acima de motivação</div>
+</div>
+
+<!-- CONSULTORIA -->
+<section id="consultoria">
+  <div class="consultoria-inner fade-in">
+    <div class="section-tag">Sem custo</div>
+    <h2 class="section-title">CONSULTORIA<br><span class="red">GRATUITA</span></h2>
+
+    <div class="free-badge">✓ 100% gratuita · sem pegadinha</div>
+
+    <p class="consultoria-desc">
+      Quer dar o primeiro passo rumo à sua transformação, mas não sabe por onde começar?
+      Ofereço consultoria gratuita de treino e/ou dieta para te ajudar a montar uma estratégia
+      real, baseada no seu objetivo e na sua realidade. Sem fórmulas mágicas — só trabalho sério.
+    </p>
+
+    <div class="consult-features">
+      <div class="consult-feat">
+        <div class="consult-feat-icon">🎯</div>
+        <div class="consult-feat-title">Plano de Treino</div>
+      </div>
+      <div class="consult-feat">
+        <div class="consult-feat-icon">🥗</div>
+        <div class="consult-feat-title">Orientação de Dieta</div>
+      </div>
+      <div class="consult-feat">
+        <div class="consult-feat-icon">📈</div>
+        <div class="consult-feat-title">Acompanhamento</div>
+      </div>
+    </div>
+
+    <p style="color: var(--light-grey); font-size: 0.95rem; line-height: 1.8; margin-bottom: 2rem;">
+      Me chame pelo e-mail
+      <a href="mailto:pcdfreaky@gmail.com" style="color: var(--red); text-decoration: none; font-weight: 600;">pcdfreaky@gmail.com</a>
+      ou manda uma mensagem direto no meu Instagram —
+      respondo todo mundo! 💬
+    </p>
+
+    <a href="https://instagram.com/pcdfreaky" target="_blank" class="btn-primary" style="margin: 0 auto; display: inline-flex;">
+      💪 Quero minha consultoria gratuita
+    </a>
+    <a href="mailto:pcdfreaky@gmail.com" class="email-link">pcdfreaky@gmail.com</a>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="section-tag">O que dizem</div>
+  <h2 class="section-title">DEPOIMENTOS</h2>
+
+  <div class="dep-grid fade-in">
+    <div class="dep-card">
+      <div class="dep-quote-mark">"</div>
+      <p class="dep-text">
+        O Lucas me ajudou a montar meu primeiro treino e me deu uma clareza que nunca tinha tido. Em 3 meses evolui mais do que em 1 ano sozinho.
+      </p>
+      <div class="dep-author">
+        <div class="dep-avatar">M</div>
+        <div>
+          <div class="dep-name">Matheus R.</div>
+          <div class="dep-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dep-card">
+      <div class="dep-quote-mark">"</div>
+      <p class="dep-text">
+        Ver alguém que supera tanto e ainda compartilha conhecimento gratuitamente me motivou demais. Conteúdo real, sem enrolação.
+      </p>
+      <div class="dep-author">
+        <div class="dep-avatar">A</div>
+        <div>
+          <div class="dep-name">Amanda S.</div>
+          <div class="dep-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dep-card">
+      <div class="dep-quote-mark">"</div>
+      <p class="dep-text">
+        A consultoria foi incrível. Ele entendeu minha rotina e me deu um plano que realmente funcionou. Recomendo demais!
+      </p>
+      <div class="dep-author">
+        <div class="dep-avatar">R</div>
+        <div>
+          <div class="dep-name">Rafael T.</div>
+          <div class="dep-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PCD<span>FREAKY</span></div>
+  <div class="footer-copy">
+    © 2025 Lucas Nascimento · @pcdfreaky<br>
+    Todos os direitos reservados.
+  </div>
+  <ul class="footer-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#consultoria">Consultoria</a></li>
+    <li><a href="mailto:pcdfreaky@gmail.com">Contato</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Nav toggle
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.padding = window.scrollY > 60 ? '0.8rem 3rem' : '';
+  });
+
+  // Close nav on link click (mobile)
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>
